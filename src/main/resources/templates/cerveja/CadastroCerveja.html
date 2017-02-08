@@ -39,7 +39,7 @@
                 <div class="col-sm-3  form-group" th:classappend="${#fields.hasErrors('estilo')} ? has-error">
                     <label for="estilo" class="control-label">Estilo</label>
                     <div class="bw-field-action">
-	                    <select id="sabor" class="form-control" th:field="*{estilo}">
+	                    <select id="estilo" class="form-control" th:field="*{estilo}">
 	                        <option value="">Selecione o estilo</option>
 	                        <option th:each="estilo : ${estilos}" th:value="${estilo.codigo}" th:text="${estilo.nome}"></option>
 	                    </select>
@@ -111,5 +111,8 @@
     </div>
     <div th:replace="estilo/CadastroRapidoEstilo :: modal"></div>
 </section>
+<th:block layout:fragment="javascript-extra">
+    <script th:src="@{/javascripts/estilo.cadastro-rapido.js}" ></script>
+</th:block>
 </body>
 </html>
