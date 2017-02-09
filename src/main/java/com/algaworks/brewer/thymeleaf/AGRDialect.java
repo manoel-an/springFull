@@ -8,6 +8,7 @@ import org.thymeleaf.processor.IProcessor;
 import org.thymeleaf.standard.StandardDialect;
 
 import com.algaworks.brewer.thymeleaf.processor.ClassForErrorAttributeTagProcessor;
+import com.algaworks.brewer.thymeleaf.processor.MessageElementTagProcessor;
 
 public class AGRDialect extends AbstractProcessorDialect {
 
@@ -19,6 +20,7 @@ public class AGRDialect extends AbstractProcessorDialect {
     public Set<IProcessor> getProcessors(String dialectPrefix) {
         final Set<IProcessor> processors = new HashSet<>();
         processors.add(new ClassForErrorAttributeTagProcessor(dialectPrefix));
+        processors.add(new MessageElementTagProcessor(dialectPrefix));
         return processors;
     }
 

@@ -15,10 +15,9 @@
         </div>
     </div>
 
-    <th:block th:include="fragments/MensagemSucesso"></th:block>
     <div class="container-fluid">
         <form method="POST" th:object="${cerveja}" class="form-vertical">
-            <th:block th:include="fragments/MensagensErroValidacao"></th:block>
+            <agr:message/>
             <div class="row">
                 <div class="col-sm-2  form-group" agr:classforerror="sku">
                     <label for="sku" class="control-label">SKU</label>
