@@ -1,4 +1,3 @@
-
 package com.algaworks.brewer.model;
 
 import java.io.Serializable;
@@ -11,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -61,8 +61,13 @@ public class Cliente implements Serializable {
 
     @PrePersist
     @PreUpdate
-    private void preInsertPreUpdate() {
-        this.cpfOuCnpj = this.cpfOuCnpj.replaceAll("\\.|-|/", "");
+    private void prePersistPreUpdate() {
+        this.cpfOuCnpj = TipoPessoa.removerFormatacao(this.cpfOuCnpj);
+    }
+
+    @PostLoad
+    private void postLoad() {
+        this.cpfOuCnpj = this.tipoPessoa.formatar(this.cpfOuCnpj);
     }
 
     public Long getCodigo() {
@@ -119,6 +124,10 @@ public class Cliente implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public String getCpfOuCnpjSemFormatacao() {
+        return TipoPessoa.removerFormatacao(this.cpfOuCnpj);
     }
 
     @Override

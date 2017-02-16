@@ -25,4 +25,8 @@ public class CadastroEstiloService {
         return estilos.saveAndFlush(estilo);
     }
 
+    public Estilo getEstiloByCodigo(Long codigo) {
+        return estilos.findOne(codigo);
+    }
+
 }

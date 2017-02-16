@@ -12,4 +12,6 @@ import com.algaworks.brewer.repository.helper.estilo.EstilosQueries;
 public interface Estilos extends JpaRepository<Estilo, Long>, EstilosQueries {
 
     public Optional<Estilo> findByNomeIgnoreCase(String nome);
+
+    public Optional<Estilo> findByCodigo(Long codigo);
 }

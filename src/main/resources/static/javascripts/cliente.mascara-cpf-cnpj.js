@@ -1,7 +1,6 @@
 var Brewer = Brewer || {};
 
 Brewer.MascaraCpfCnpj = (function() {
-	
 	function MascaraCpfCnpj() {
 		this.radioTipoPessoa = $('.js-radio-tipo-pessoa');
 		this.labelCpfCnpj = $('[for=cpfOuCnpj]');
@@ -36,10 +35,12 @@ Brewer.TesteBtn = (function() {
 	
 	function TesteBtn() {
 		this.botaoTeste = $('#btnTeste');
+		this.botaoHidden = $('#btnHidden');
 	}
 	
 	TesteBtn.prototype.testarBtn = function() {
 		this.botaoTeste.on('click', alert('oi'));
+		this.botaoHidden.removeClass('hidden');
 	}
 	
 	return TesteBtn;

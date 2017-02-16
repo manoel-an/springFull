@@ -85,7 +85,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
     @Bean
     public FormattingConversionService mvcConversionService() {
         DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
-        conversionService.addConverter(new EstiloConverter());
+        conversionService.addConverter(getEstiloConverterType());
         conversionService.addConverter(new CidadeConverter());
         conversionService.addConverter(new EstadoConverter());
 
@@ -96,6 +96,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         conversionService.addFormatterForFieldType(Integer.class, integerFormatter);
 
         return conversionService;
+    }
+
+    @Bean
+    public EstiloConverter getEstiloConverterType() {
+        return new EstiloConverter();
     }
 
     @Bean

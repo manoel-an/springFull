@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -72,6 +73,13 @@ public class EstilosController {
         PageWrapper<Estilo> paginaWrapper = new PageWrapper<>(estilos.filtrar(estiloFilter, pageable),
                 httpServletRequest);
         mv.addObject("pagina", paginaWrapper);
+        return mv;
+    }
+
+    @GetMapping("/{codigo}")
+    public ModelAndView editar(@PathVariable("codigo") Estilo estilo) {
+        ModelAndView mv = new ModelAndView("estilo/CadastroEstilo");
+        mv.addObject("estilo", estilo);
         return mv;
     }
 
