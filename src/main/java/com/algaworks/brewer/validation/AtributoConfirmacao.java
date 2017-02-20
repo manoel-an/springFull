@@ -1,4 +1,4 @@
-package com.algaworks.brewer.model.validation;
+package com.algaworks.brewer.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,17 +10,22 @@ import javax.validation.OverridesAttribute;
 import javax.validation.Payload;
 import javax.validation.constraints.Pattern;
 
-@Target({ElementType.FIELD ,ElementType.METHOD ,ElementType.ANNOTATION_TYPE})
+import com.algaworks.brewer.validation.validator.AtributoConfirmacaoValidator;
+
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = {})
-@Pattern(regexp = "([a-zA-Z]{2}\\d{4})?")
-public @interface SKU {
+@Constraint(validatedBy = {AtributoConfirmacaoValidator.class})
+public @interface AtributoConfirmacao {
 
     @OverridesAttribute(constraint = Pattern.class, name = "message")
-    String message() default "SKU deve seguir o padrão XX9999";
+    String message() default "Atributos não conferem";
 
     Class<?>[]groups() default {};
 
     Class<? extends Payload>[]payload() default {};
+
+    String atributo();
+
+    String atributoConfirmacao();
 
 }

@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.util.StringUtils;
 
-import com.algaworks.brewer.model.validation.SKU;
+import com.algaworks.brewer.validation.SKU;
 
 @Entity
 @Table(name = "cerveja")
