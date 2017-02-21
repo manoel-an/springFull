@@ -2,7 +2,6 @@ package com.algaworks.brewer.config;
 
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.BeansException;
@@ -18,8 +17,6 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -29,6 +26,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -39,9 +37,8 @@ import com.algaworks.brewer.controller.CervejasController;
 import com.algaworks.brewer.controller.converter.CidadeConverter;
 import com.algaworks.brewer.controller.converter.EstadoConverter;
 import com.algaworks.brewer.controller.converter.EstiloConverter;
+import com.algaworks.brewer.controller.converter.GrupoConverter;
 import com.algaworks.brewer.thymeleaf.AGRDialect;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
 
 import nz.net.ultraq.thymeleaf.LayoutDialect;
@@ -76,6 +73,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         engine.addDialect(new LayoutDialect());
         engine.addDialect(new DataAttributeDialect());
         engine.addDialect(new AGRDialect());
+        engine.addDialect(new SpringSecurityDialect());
         return engine;
     }
 
@@ -93,18 +91,23 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
     }
 
-    @Override
-    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(mappingJackson2HttpMessageConverter());
-    }
-
-    @Bean
-    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(
-                new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false));
-        return converter;
-    }
+    // @Override
+    // public void extendMessageConverters(List<HttpMessageConverter<?>>
+    // converters) {
+    // converters.add(mappingJackson2HttpMessageConverter());
+    // }
+    //
+    // @Bean
+    // public MappingJackson2HttpMessageConverter
+    // mappingJackson2HttpMessageConverter() {
+    // MappingJackson2HttpMessageConverter converter = new
+    // MappingJackson2HttpMessageConverter();
+    // converter.setObjectMapper(
+    // new
+    // ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+    // false));
+    // return converter;
+    // }
 
     @Bean
     public FormattingConversionService mvcConversionService() {
@@ -112,6 +115,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         conversionService.addConverter(getEstiloConverterType());
         conversionService.addConverter(new CidadeConverter());
         conversionService.addConverter(new EstadoConverter());
+        conversionService.addConverter(new GrupoConverter());
 
         NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
         conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
