@@ -4,10 +4,14 @@ Brewer.TesteData = (function() {
 	
 	function TesteData() {
 		this.data = $('.js-date');
+		this.dataInput = $('.dataInput');
 	}
 	
 	TesteData.prototype.iniciar = function() {
-		console.log('Data', this.data.val());
+		this.dataInput.on('change', onChangeInputData.bind(this));
+	}
+	
+	function onChangeInputData(){
 		var date = this.data.val().split("/");
 		dataJS = new Date(date[2], date[1] - 1, date[0])
 		console.log('DataJS', dataJS);
@@ -18,7 +22,7 @@ Brewer.TesteData = (function() {
 			data: JSON.stringify({ dataNascimento: dataJS }),
 			error: onError.bind(this),
 			success: onSucess.bind(this)
-		});		
+		});			
 	}
 	
 	function onError(obj){
@@ -33,7 +37,7 @@ Brewer.TesteData = (function() {
 	
 }());
 
-function testeData(){
+$(function() {
 	var testeData = new Brewer.TesteData();
 	testeData.iniciar();
-}
+});
