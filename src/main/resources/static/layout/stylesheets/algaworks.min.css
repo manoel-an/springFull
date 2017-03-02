@@ -214,9 +214,10 @@ keyframes aw-balls-spinner { 0%{
 .aw-footer-disclaimer {
 	font-size: 92%;
 	display: block;
-	color: #777;
-	line-height: 4;
-	text-align: center
+	color: white;
+	line-height: 2;
+	text-align: center;
+	margin-top: 1%;
 }
 
 .aw-logged-user {

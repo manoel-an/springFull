@@ -303,6 +303,10 @@
     font-size: 1.3em;
 }
 
+.navbar-default {
+    background-color: #000033;
+}
+
 @media (min-width: 768px) { /* screen-sm-min */
     .bw-tabela-item__painel-exclusao {
         width: 40%;
