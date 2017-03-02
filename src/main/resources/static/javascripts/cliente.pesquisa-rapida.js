@@ -8,8 +8,8 @@ Brewer.PesquisaRapidaCliente = (function() {
 		this.nomeInput = $('#nomeClienteModal');
 		this.pesquisaRapidaBtn = $('.js-pesquisa-rapida-clientes-btn');
 		this.containerTabelaPesquisa = $('#containerTabelaPesquisaRapidaClientes');
-		this.htmlTabelaPesquisa = $('#tabela-pesquisa-rapida-cliente').html();
-		this.template = Handlebars.compile(this.htmlTabelaPesquisa);
+		//this.htmlTabelaPesquisa = $('#tabela-pesquisa-rapida-cliente').html();
+		//this.template = Handlebars.compile(this.htmlTabelaPesquisa);
 		this.mensagemErro = $('.js-mensagem-erro');
 	}
 	
@@ -25,8 +25,9 @@ Brewer.PesquisaRapidaCliente = (function() {
 	function onPesquisaConcluida(resultado){
 		this.form.find('.form-group').removeClass('has-error');
 		this.mensagemErro.addClass('hidden');
-		var html = this.template(resultado);
-		this.containerTabelaPesquisa.html(html);
+		//var html = this.template(resultado);
+		//this.containerTabelaPesquisa.html(html);
+		this.containerTabelaPesquisa.html(resultado);
 		var tabelaClientePesquisaRapida = new Brewer.TabelaClientePesquisaRapida(this.pesquisaRapidaClientesModal);
 		tabelaClientePesquisaRapida.iniciar();
 	}

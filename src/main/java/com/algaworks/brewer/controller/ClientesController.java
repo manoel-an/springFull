@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -78,10 +77,19 @@ public class ClientesController {
         return mv;
     }
 
+//    @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
+//    public @ResponseBody List<Cliente> pesquisar(String nome) {
+//        validarTamanhoNome(nome);
+//        return clientes.findByNomeStartingWithIgnoreCase(nome);
+//    }
+    
     @RequestMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody List<Cliente> pesquisar(String nome) {
-        validarTamanhoNome(nome);
-        return clientes.findByNomeStartingWithIgnoreCase(nome);
+    public ModelAndView pesquisar(String nome) {
+    	validarTamanhoNome(nome);
+    	ModelAndView modelAndView = new ModelAndView("cliente/fragments/TabelaPesquisaCliente");
+    	List<Cliente> clientes = this.clientes.findByNomeStartingWithIgnoreCase(nome);
+    	modelAndView.addObject("clientes", clientes);
+    	return modelAndView;
     }
 
     private void validarTamanhoNome(String nome) {
