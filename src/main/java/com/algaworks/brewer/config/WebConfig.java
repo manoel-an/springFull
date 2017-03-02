@@ -18,6 +18,7 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -37,6 +38,7 @@ import com.algaworks.brewer.controller.converter.CidadeConverter;
 import com.algaworks.brewer.controller.converter.EstadoConverter;
 import com.algaworks.brewer.controller.converter.EstiloConverter;
 import com.algaworks.brewer.controller.converter.GrupoConverter;
+import com.algaworks.brewer.controller.converter.MarcaConverter;
 import com.algaworks.brewer.session.TabelasItensSession;
 import com.algaworks.brewer.thymeleaf.AGRDialect;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
@@ -116,6 +118,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         conversionService.addConverter(new CidadeConverter());
         conversionService.addConverter(new EstadoConverter());
         conversionService.addConverter(new GrupoConverter());
+        conversionService.addConverter(getMarcaConverter());
 
         NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
         conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
@@ -130,6 +133,19 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
         return conversionService;
     }
+    
+    @Bean
+    public MarcaConverter getMarcaConverter(){
+        return new MarcaConverter();
+    }
+
+
+   @Bean
+   public CommonsMultipartResolver multipartResolver() {
+       CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+       resolver.setDefaultEncoding("utf-8");
+       return resolver;
+   }
 
     @Bean
     public EstiloConverter getEstiloConverterType() {
