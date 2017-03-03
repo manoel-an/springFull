@@ -307,6 +307,11 @@
     background-color: #000033;
 }
 
+/* Box */
+.negativo .aw-box__value {
+    color: red;
+}
+
 @media (min-width: 768px) { /* screen-sm-min */
     .bw-tabela-item__painel-exclusao {
         width: 40%;

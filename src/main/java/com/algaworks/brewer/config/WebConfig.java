@@ -18,7 +18,6 @@ import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.format.number.NumberStyleFormatter;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -38,7 +37,6 @@ import com.algaworks.brewer.controller.converter.CidadeConverter;
 import com.algaworks.brewer.controller.converter.EstadoConverter;
 import com.algaworks.brewer.controller.converter.EstiloConverter;
 import com.algaworks.brewer.controller.converter.GrupoConverter;
-import com.algaworks.brewer.controller.converter.MarcaConverter;
 import com.algaworks.brewer.session.TabelasItensSession;
 import com.algaworks.brewer.thymeleaf.AGRDialect;
 import com.github.mxab.thymeleaf.extras.dataattribute.dialect.DataAttributeDialect;
@@ -73,8 +71,8 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         engine.setTemplateResolver(templateResolver());
 
         engine.addDialect(new LayoutDialect());
-        engine.addDialect(new DataAttributeDialect());
         engine.addDialect(new AGRDialect());
+        engine.addDialect(new DataAttributeDialect());
         engine.addDialect(new SpringSecurityDialect());
         return engine;
     }
@@ -93,24 +91,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
     }
 
-    // @Override
-    // public void extendMessageConverters(List<HttpMessageConverter<?>>
-    // converters) {
-    // converters.add(mappingJackson2HttpMessageConverter());
-    // }
-    //
-    // @Bean
-    // public MappingJackson2HttpMessageConverter
-    // mappingJackson2HttpMessageConverter() {
-    // MappingJackson2HttpMessageConverter converter = new
-    // MappingJackson2HttpMessageConverter();
-    // converter.setObjectMapper(
-    // new
-    // ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-    // false));
-    // return converter;
-    // }
-
     @Bean
     public FormattingConversionService mvcConversionService() {
         DefaultFormattingConversionService conversionService = new DefaultFormattingConversionService();
@@ -118,7 +98,6 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         conversionService.addConverter(new CidadeConverter());
         conversionService.addConverter(new EstadoConverter());
         conversionService.addConverter(new GrupoConverter());
-        conversionService.addConverter(getMarcaConverter());
 
         NumberStyleFormatter bigDecimalFormatter = new NumberStyleFormatter("#,##0.00");
         conversionService.addFormatterForFieldType(BigDecimal.class, bigDecimalFormatter);
@@ -126,30 +105,13 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         NumberStyleFormatter integerFormatter = new NumberStyleFormatter("#,##0");
         conversionService.addFormatterForFieldType(Integer.class, integerFormatter);
 
-        // Data Java 8
+        // API de Datas do Java 8
         DateTimeFormatterRegistrar dateTimeFormatter = new DateTimeFormatterRegistrar();
         dateTimeFormatter.setDateFormatter(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        dateTimeFormatter.setTimeFormatter(DateTimeFormatter.ofPattern("HH:mm"));
         dateTimeFormatter.registerFormatters(conversionService);
 
         return conversionService;
-    }
-    
-    @Bean
-    public MarcaConverter getMarcaConverter(){
-        return new MarcaConverter();
-    }
-
-
-   @Bean
-   public CommonsMultipartResolver multipartResolver() {
-       CommonsMultipartResolver resolver=new CommonsMultipartResolver();
-       resolver.setDefaultEncoding("utf-8");
-       return resolver;
-   }
-
-    @Bean
-    public EstiloConverter getEstiloConverterType() {
-        return new EstiloConverter();
     }
 
     @Bean
@@ -163,6 +125,11 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
         bundle.setBasename("classpath:/messages");
         bundle.setDefaultEncoding("UTF-8"); // http://www.utf8-chartable.de/
         return bundle;
+    }
+
+    @Bean
+    public EstiloConverter getEstiloConverterType() {
+        return new EstiloConverter();
     }
 
     @Bean

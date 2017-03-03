@@ -58,15 +58,15 @@ Brewer.MaskDate = (function() {
 	
 	function MaskDate() {
 		this.inputDate = $('.js-date');
-		this.inputDate.datepicker({
-			orientation: 'bottom',
-			language: 'pt-BR',
-			autoclose: true
-		})
 	}
 	
 	MaskDate.prototype.enable = function() {
 		this.inputDate.mask('00/00/0000');
+		this.inputDate.datepicker({
+			orientation: 'bottom',
+			language: 'pt-BR',
+			autoclose: true
+		});
 	}
 	
 	return MaskDate;
@@ -90,11 +90,15 @@ Brewer.Security = (function() {
 	
 }());
 
-Brewer.formatarMoeda = function(valor){
-	numeral.language('pt-br');
+numeral.language('pt-br');
+
+Brewer.formatarMoeda = function(valor) {
 	return numeral(valor).format('0,0.00');
 }
 
+Brewer.recuperarValor = function(valorFormatado) {
+	return numeral().unformat(valorFormatado);
+}
 
 $(function() {
 	var maskMoney = new Brewer.MaskMoney();
@@ -110,5 +114,6 @@ $(function() {
 	maskDate.enable();
 	
 	var security = new Brewer.Security();
-	security.enable();	
+	security.enable();
+	
 });
