@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
@@ -37,8 +36,7 @@ public class RefrigerantesController extends FileController {
 	@GetMapping("/refrigerantes")
 	public ModelAndView pesquisar(@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest){
 		ModelAndView modelAndView = new ModelAndView("refrigerante/PesquisaRefrigerante");
-		modelAndView.addObject("refrigerantes", service.getRefrigerantes().findAll());
-		PageWrapper<Refrigerante> paginaWrapper = new PageWrapper<>(new PageImpl<>(service.getRefrigerantes().findAll(), pageable, service.getRefrigerantes().count()),
+		PageWrapper<Refrigerante> paginaWrapper = new PageWrapper<>(service.getRefrigerantes().filtrar(null, pageable),
                 httpServletRequest);
         modelAndView.addObject("pagina", paginaWrapper);
 		return modelAndView;

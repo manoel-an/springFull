@@ -33,7 +33,7 @@
 				</tr>
 			</thead>
 			<tbody id="refrigerantes">
-				<tr th:each="refrigerante : ${refrigerantes}">
+				<tr th:each="refrigerante : ${pagina.conteudo}">
 					<td th:text="${refrigerante.id}"></td>
 					<td th:text="${refrigerante.nome}"></td>
 					<td th:text="${refrigerante.descricao}"></td>
