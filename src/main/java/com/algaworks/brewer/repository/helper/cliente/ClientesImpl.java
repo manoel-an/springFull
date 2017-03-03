@@ -20,7 +20,7 @@ import com.algaworks.brewer.model.Cliente;
 import com.algaworks.brewer.repository.filter.ClienteFilter;
 import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
 
-public class ClientesImpl implements ClientesQueries {
+public class ClientesImpl implements PageableQueries<Cliente, ClienteFilter> {
 
     @PersistenceContext
     private EntityManager manager;

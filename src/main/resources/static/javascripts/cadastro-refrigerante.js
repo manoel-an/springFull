@@ -1,7 +1,10 @@
+var Brewer = Brewer || {};
+
 $(document).ready(function() {
 	$( "#listagemRefrigerante" ).hide();
 	$('#progress').removeClass("progress");
 	$('#progress .progress-bar').css('width', 0 + '%');
+	console.log(Brewer);
 });
 
 $(function () {

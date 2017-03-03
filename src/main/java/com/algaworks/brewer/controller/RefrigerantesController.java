@@ -1,9 +1,13 @@
 package com.algaworks.brewer.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.model.Marca;
 import com.algaworks.brewer.model.Refrigerante;
 import com.algaworks.brewer.model.SaborRefrigerante;
@@ -28,6 +33,16 @@ public class RefrigerantesController extends FileController {
 	
 	@Autowired
 	private RefrigeranteService service;
+	
+	@GetMapping("/refrigerantes")
+	public ModelAndView pesquisar(@PageableDefault(size = 3) Pageable pageable, HttpServletRequest httpServletRequest){
+		ModelAndView modelAndView = new ModelAndView("refrigerante/PesquisaRefrigerante");
+		modelAndView.addObject("refrigerantes", service.getRefrigerantes().findAll());
+		PageWrapper<Refrigerante> paginaWrapper = new PageWrapper<>(new PageImpl<>(service.getRefrigerantes().findAll(), pageable, service.getRefrigerantes().count()),
+                httpServletRequest);
+        modelAndView.addObject("pagina", paginaWrapper);
+		return modelAndView;
+	}
 	
 	@RequestMapping(path = "/refrigerantes/novo", method = RequestMethod.GET)	
 	public ModelAndView cadastrarRefrigerante(Refrigerante refrigerante){
@@ -79,7 +94,7 @@ public class RefrigerantesController extends FileController {
 	
 	@ResponseBody
 	@GetMapping("/refrigerantes/pesquisar")
-	public ResponseEntity<?> pesquisar(){
+	public ResponseEntity<?> pesquisarAJAX(){
 		return ResponseEntity.ok(service.getRefrigerantes().findAll());
 	}
 	
